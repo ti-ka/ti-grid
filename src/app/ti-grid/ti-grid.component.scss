@@ -1,0 +1,148 @@
+thead th {
+  cursor: pointer;
+  vertical-align: top;
+  background: #17aaba;
+  color: #f1f1f1;
+}
+
+.column-options-toggle {
+  opacity: .3;
+  position: relative;
+  float: right;
+}
+
+th:hover .column-options-toggle {
+  opacity: 1;
+}
+
+.filter-badge {
+  font-size: .7em;
+  border-radius: 2px;
+  width: auto;
+  display: inline-block;
+  background: #333;
+  color: #e4e4e4;
+  padding: .25em .5em;
+  margin-left: 1em;
+  max-width: 150px;
+}
+
+.column-options {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: 300px;
+  opacity: 1;
+  color: #000000FF;
+  border: 1px solid #ddd;
+  background: #ffffff;
+
+  display: none;
+
+  transition: all 0.4s ease-out;
+  box-shadow: 10px 17.321px 57px 0px rgba(0, 0, 0, 0.08);
+}
+
+ul, li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  padding: .5em 1em;
+  display: block;
+  border-bottom: 1px solid #ddd;
+  ul li:last-child {
+    border-bottom: none;
+  }
+}
+
+ul li:hover {
+  background: #f4f4f4;
+}
+
+ul li div.filter {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+
+  select, input, span {
+    padding: .25rem .75rem;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0;
+    appearance: none;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    width: 50%;
+    display: inline-block;
+  }
+
+  span {
+    width: auto;
+  }
+
+
+}
+
+.items-check>div {
+  padding: .25em;
+  border-bottom: 1px solid #e5e5e5;
+
+  i {
+    margin-right: .5em;
+    font-size: 1.2em;
+  }
+}
+
+.items-check:last-child div {
+  border-bottom: none;
+}
+
+.m-r-20 {
+  margin-right: 20px;
+}
+.m-r-5 {
+  margin-right: 5px;
+}
+.m-r-10 {
+  margin-right: 10px;
+}
+.pointer {
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.no-records {
+  text-align: center;
+  color: #495057;
+  padding: 20px;
+}
+
+.page-index {
+  float: right;
+  .page-index-selector {
+    cursor: pointer;
+    padding: 0 .5em;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid transparent;
+  }
+  .page-index-selector.active {
+    border: 1px solid #495057;
+  }
+  .page-index-selector:hover {
+    background: #e4e4e4;
+  }
+}
+
+.text-left { text-align: left }
+.text-center { text-align: center }
+.text-right { text-align: right }
+.text-justify { text-align: justify }
+
