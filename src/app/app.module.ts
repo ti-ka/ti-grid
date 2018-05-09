@@ -1,26 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
-import { TiGridComponent } from './ti-grid/ti-grid.component';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+
+// From Npm:
+import  { TiGridModule } from 'ti-grid';
+
+// From Local Project
+// import { TiGridModule } from '../../projects/ti-grid/src/lib/ti-grid.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TiGridComponent,
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule
+    TiGridModule
   ],
   exports: [
-    TiGridComponent,
   ],
   providers: [
-    HttpClient,
   ],
   bootstrap: [AppComponent]
 })

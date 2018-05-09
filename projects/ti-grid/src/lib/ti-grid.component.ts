@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { IColumn, IAction } from './ti-grid.interfaces';
 
 @Component({
   selector: 'ti-grid',
@@ -206,24 +207,4 @@ export class TiGridComponent implements OnInit {
       column.excludes.splice(index, 1);
     }
   }
-}
-
-export interface IColumn {
-  title: string;
-  field: string;
-  pipe? : 'currency' | 'date';
-  classes?: string;
-  sort?: 'asc' | 'desc' | null;
-  filterBy?: string;
-  filter?: string;
-  excludes?: string[];
-  onClick?: (value, row, IColumn) => void;
-  align?: 'left' | 'right' | 'center' | 'justify'
-}
-
-export interface IAction {
-  title: string;
-  classes?: string;
-  icon?: string;
-  onClick: (any) => void;
 }

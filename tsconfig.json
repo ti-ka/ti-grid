@@ -15,6 +15,17 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ti-angular-grid": [
+        "dist/ti-angular-grid"
+      ],
+      "ti-grid-lib": [
+        "dist/ti-grid-lib"
+      ],
+      "ti-grid": [
+        "dist/ti-grid"
+      ]
+    }
   }
 }

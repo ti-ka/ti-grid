@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { IAction, IColumn } from './ti-grid/ti-grid.component';
+
+// From Npm:
+import { IAction, IColumn } from 'ti-grid';
+
+// From local npm:
+// import { IAction, IColumn } from '../../projects/ti-grid/src/lib/ti-grid.interfaces';
 
 @Component({
   selector: 'ti-root',
