@@ -1,4 +1,6 @@
-# Ti-Grid for Angular 2+
+# Ti-Grid for Angular 2+ 
+
+Demo: https://dev.tika.me/ti-grid/
 
 Grids like they should be (simple & powerful):
 
