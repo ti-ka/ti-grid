@@ -1,0 +1,44 @@
+$trans: transparent;
+$block: #e9f7fb;
+$line: #bedcff;
+$gridSize: 100px;
+$subdivisions: 5;
+$lineAlpha: .7;
+$sublineAlpha: .5;
+
+.drag-boundary {
+  box-sizing: border-box;
+}
+.drag-boundary *, .drag-boundary *:before, .drag-boundary *:after {
+  box-sizing: inherit;
+}
+
+.drag-boundary {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #f9f9f9;
+  padding: 0;
+  height: 500px;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
+  position: relative;
+
+  background-color: $block;
+  background-image:
+          linear-gradient(rgba($line,$sublineAlpha) 1px, $trans 1px), /*sub horiz*/
+          linear-gradient($line 1px, $trans 1px), /*main horiz*/
+          linear-gradient(90deg, rgba($line,$sublineAlpha) 1px, $trans 1px), /*sub vert*/
+          linear-gradient(90deg, rgba($line,$lineAlpha) 1px, $trans 1px), /*main vert*/
+          linear-gradient($trans 3px, $block 3px, $block $gridSize - 2, $trans $gridSize - 2), /*nub horiz*/
+          linear-gradient(90deg, rgba($line,$lineAlpha) 3px, $trans 3px, $trans $gridSize - 2, rgba($line,$lineAlpha) $gridSize - 2) /*nub vert*/;
+  background-size:
+          $gridSize / $subdivisions $gridSize / $subdivisions,
+          $gridSize $gridSize,
+          $gridSize / $subdivisions $gridSize / $subdivisions,
+          $gridSize $gridSize,
+          $gridSize $gridSize,
+          $gridSize $gridSize;
+}

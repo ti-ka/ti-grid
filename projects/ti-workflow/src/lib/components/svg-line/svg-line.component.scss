@@ -1,0 +1,88 @@
+.line-label {
+  position: absolute;
+  color: white;
+  font-size: .6em;
+  background: white;
+  border-style: solid;
+  border-width: 2px;
+  padding: .25em .5em;
+  transform: translateY(-50%) translateX(-50%);
+  z-index: 4;
+  cursor: pointer;
+}
+
+.workflow-cross {
+  background: red;
+  color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 1.4em;
+  height: 1.4em;
+  line-height: 1.4;
+  padding: 0; margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  text-align: center;
+  border-radius: 100%;
+  transform: translateX(50%) translateY(-50%);
+  display: none;
+}
+
+.line-label:hover .workflow-cross {
+  display: block;
+}
+
+.line {
+  position: absolute;
+  transform-origin: 0 0;
+
+  border-top-style: solid;
+  border-left-style: solid;
+  border-width: 2px;
+
+  padding: 0;
+  border-color: red;
+}
+
+.arrow {
+  content: '';
+  position: absolute;
+  width: 0;
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent;
+
+  //border-left-color: red;
+  //margin-top: -1px;
+  //margin-left: -1px;
+
+  transform: translateX(-50%) translateY(-50%);
+
+}
+
+
+
+svg {
+  position: absolute; top:0; left:0;
+  height:100%; width:100%
+}
+
+
+
+
+.triangle.triangle-left {
+  transform: translate(-8px, -5px);
+}
+
+.triangle.triangle-top {
+  transform: translate(-5px, -8px);
+}
+
+.triangle.triangle-bottom {
+  transform: translate(-5px, -1px); //-5px -8px
+}
+
+.triangle.triangle-right {
+  transform: translate(-1px, -5px); //-5px -8px
+}

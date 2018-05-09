@@ -1,0 +1,32 @@
+<div
+     (mouseup)="discardConnection()"
+     class="drag-boundary {{workflow && workflow.draggable ? 'draggable' : 'not-draggable' }}" #container>
+
+
+    <app-node *ngFor="let node of nodes"
+              (click)="getClickEvent(node)"
+              [node]="node"
+              [workflow]="workflow"
+              [gridSize]="gridSize"
+              [container]="container"></app-node>
+
+    <app-connection
+            *ngFor="let connection of connections"
+            (click)="getClickEvent(connection)"
+            [connection]="connection"
+            [workflow]="workflow"
+            [gridSize]="gridSize"
+            [color]="connection.color || lineColor"
+            [container]="container"></app-connection>
+
+    <!-- For ongoing connection -->
+    <app-connection
+            *ngIf="workflow.creatingConnection"
+            [connection]="workflow.creatingConnection"
+            [workflow]="workflow"
+            [gridSize]="gridSize"
+            [color]="workflow.creatingConnection.color || lineColor"
+            [container]="container">
+    </app-connection>
+
+</div>

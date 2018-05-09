@@ -1,0 +1,83 @@
+.node {
+  display: inline-block;
+  max-width: 100px;
+  border: 0px solid darkgray;
+  background: white;
+  background: #e5e5e5;
+  position: relative;
+  border-radius: 2px;
+  z-index: 3;
+  cursor: pointer;
+  font-size: 14px;
+  position: absolute;
+}
+
+.node-content {
+  padding: .5em;
+  z-index: 4;
+  border: 2px solid darkgray;
+  margin: 0;
+}
+
+.connector {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border: 2px solid #a9a9a9;
+  border-radius: 50%;
+  position: absolute;
+  background: #fff;
+  top: auto;
+  left: auto;
+  margin-left: -6px;
+  margin-top: -6px;
+  z-index: 5;
+
+  display: none;
+  transform: scale(1.5);
+  cursor: pointer;
+}
+
+.node:hover .connector {
+  display: block;
+}
+
+.connector:hover {
+  background: darkgray;
+}
+
+
+.workflow-cross {
+  background: red;
+  color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 1.4em;
+  height: 1.4em;
+  line-height: 1.4;
+  padding: 0; margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  text-align: center;
+  border-radius: 100%;
+  transform: translateX(50%) translateY(-50%);
+  display: none;
+}
+
+.node:hover .workflow-cross {
+  display: block;
+}
+
+.node .connector-left {
+  top: 50%; left: 0;
+}
+.node .connector-top {
+  top: 0; left: 50%;
+}
+.node .connector-right {
+  top: 50%; left: 100%;
+}
+.node .connector-bottom {
+  top: 100%; left: 50%;
+}

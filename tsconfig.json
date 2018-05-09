@@ -25,6 +25,9 @@
       ],
       "ti-grid": [
         "dist/ti-grid"
+      ],
+      "ti-workflow": [
+        "dist/ti-workflow"
       ]
     }
   }
