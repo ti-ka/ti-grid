@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IColumn, IAction } from './ti-grid.interfaces';
+import { IColumn, IRowAction } from './ti-grid.interfaces';
 
 @Component({
   selector: 'ti-grid',
@@ -12,7 +12,7 @@ export class TiGridComponent implements OnInit {
   @Input() columns: IColumn[];
   @Input() url: string;
   @Input() rows: any[];
-  @Input() actions: IAction[];
+  @Input() rowActions: IRowAction[];
   @Input() pageSize = 10;
   @Input() page = 1;
   @Input() checkbox = true;
@@ -30,6 +30,7 @@ export class TiGridComponent implements OnInit {
       c.filterBy = c.filterBy || 'has';
       c.filter = c.filter || '';
       c.excludes = c.excludes || [];
+      c.template = c.template || ((v) => v);
     });
     if (this.url) {
       this.http.get<any[]>(this.url).subscribe(data => {
@@ -42,7 +43,7 @@ export class TiGridComponent implements OnInit {
   }
 
   get pages(): number[] {
-    let _pages =  Array.from(Array(Math.ceil(this.filteredCount/this.pageSize)))
+    let _pages =  Array.from(Array(Math.ceil(this.filteredCount / this.pageSize)))
       .map((v, i) => i + 1);
     if (_pages.length > 5) {
       _pages = _pages.filter((v, i) => [1, this.page - 1, this.page, this.page + 1, _pages.length].indexOf(v) >= 0);
@@ -54,7 +55,7 @@ export class TiGridComponent implements OnInit {
     if (!this.rows) {
       return [];
     }
-    return this.rows.map(r => r[column.field]).filter((v, i, a) => a.indexOf(v) === i);
+    return this.rows.map(r => column.template(r[column.field], column, r)).filter((v, i, a) => a.indexOf(v) === i);
   }
 
   get filteredRows(): number[] {
@@ -80,7 +81,7 @@ export class TiGridComponent implements OnInit {
     this.filteredCount = rows.length;
 
 
-    rows = rows.splice((this.page-1) * this.pageSize, this.pageSize);
+    rows = rows.splice((this.page - 1) * this.pageSize, this.pageSize);
 
     return rows;
   }
@@ -166,7 +167,7 @@ export class TiGridComponent implements OnInit {
       const index = arr.indexOf(v);
       arr[index] = undefined;
       return index;
-    })
+    });
 
   }
 
@@ -174,7 +175,7 @@ export class TiGridComponent implements OnInit {
 
     // Hide all other context menus
     const toHide: any[] = Array.from(document.querySelectorAll('.column-options'))
-      .filter(e => e != element);
+      .filter(e => e !== element);
 
     toHide.forEach(e => e.style.display = 'none');
 

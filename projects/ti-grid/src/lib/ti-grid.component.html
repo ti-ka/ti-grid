@@ -70,7 +70,7 @@
   <tbody (click)="hideColumnOptions()">
   <tr *ngIf="selectedRow">
     <td colspan="100%">
-                <span *ngFor="let action of actions"
+                <span *ngFor="let action of rowActions"
                       (click)="action.onClick(selectedRow); selectedRow = null"
                       class="m-r-20 pointer {{action.classes}}">
                     <i [class]="action.icon"></i> &nbsp; {{ action.title }}
@@ -87,8 +87,10 @@
       <td
         *ngFor="let column of columns"
         (click)="onCellClicked(row, column)"
-        class="{{ column.classes }} text-{{column.align}}">
-        {{ row[column.field] }}
+        class="{{ column.classes }} {{ column.onClick ? 'pointer' : '' }} text-{{column.align}}">
+        <ng-container>
+          {{ column.template(row[column.field], column, row) }}
+        </ng-container>
       </td>
     </tr>
   </ng-container>

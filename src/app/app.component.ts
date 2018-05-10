@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 // From Npm:
-import { IAction, IColumn } from 'ti-grid';
+// import { IAction, IColumn } from 'ti-grid';
 import { WorkflowConnection, WorkflowNode } from '../../projects/ti-workflow/src/lib/models/workflow-models';
 
 // From local npm:
-// import { IAction, IColumn } from '../../projects/ti-grid/src/lib/ti-grid.interfaces';
+import { IRowAction, IColumn } from '../../projects/ti-grid/src/lib/ti-grid.interfaces';
 
 @Component({
   selector: 'ti-root',
@@ -14,7 +14,7 @@ import { WorkflowConnection, WorkflowNode } from '../../projects/ti-workflow/src
 })
 export class AppComponent {
 
-  actions: IAction[];
+  actions: IRowAction[];
   columns: IColumn[];
   nodes: WorkflowNode[] = [];
   connections: WorkflowConnection[] = [];
@@ -25,10 +25,12 @@ export class AppComponent {
     this.url = 'https://api.myjson.com/bins/15psn9';
 
     this.columns =  [
-      { title: 'Make', field: 'make' },
+      { title: 'Make', field: 'make', sort: 'asc', onClick: (v) => alert(v) },
       { title: 'Model', field: 'model', filterBy: 'has', filter: 'e' },
       { title: 'Price', field: 'price', align: 'right' }
     ];
+    const k =  { title: 'Discounted 25%', field: 'price', align: 'right', template: (v) => 0.75 * v };
+    this.columns.push(k);
 
     this.actions = [
       {
@@ -37,7 +39,7 @@ export class AppComponent {
         icon: 'fal fa-check',
         onClick: (row) => {
           row['make'] = `${row['make']} (Approved)`;
-          alert(`${row['make']} is approved.`)
+          alert(`${row['make']} is approved.`);
         }
       },
       {

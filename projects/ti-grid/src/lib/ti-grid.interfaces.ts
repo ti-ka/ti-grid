@@ -7,13 +7,14 @@ export interface IColumn {
   filterBy?: string;
   filter?: string;
   excludes?: string[];
-  onClick?: (value, row, IColumn) => void;
-  align?: 'left' | 'right' | 'center' | 'justify'
+  onClick?: (value: any, column: IColumn, row: any) => void;
+  align?: string;
+  template?: (value: any, column: IColumn, row: any) => any;
 }
 
-export interface IAction {
+export interface IRowAction {
   title: string;
   classes?: string;
   icon?: string;
-  onClick: (any) => void;
+  onClick: (row: any, column: any) => void;
 }
