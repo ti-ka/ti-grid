@@ -28,7 +28,10 @@ export class AppComponent {
       { title: 'Make', field: 'make', sort: 'asc', onClick: (v) => alert(v) },
       { title: 'Model', field: 'model', filterBy: 'has', filter: 'e' },
       { title: 'Price', field: 'price', align: 'right' },
-      { title: 'Discounted 25%', field: 'price', align: 'right', template: (v) => 0.75 * v }
+      { title: 'Discounted 25%', field: 'price', align: 'right', template: (v) => {
+          return '<strong>$ ' + v * .75 + ' </strong>';
+        }
+      }
     ];
 
     this.actions = [{

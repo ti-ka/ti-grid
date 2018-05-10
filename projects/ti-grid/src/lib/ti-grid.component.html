@@ -88,9 +88,8 @@
         *ngFor="let column of columns"
         (click)="onCellClicked(row, column)"
         class="{{ column.classes }} {{ column.onClick ? 'pointer' : '' }} text-{{column.align}}">
-        <ng-container>
-          {{ column.template(row[column.field], column, row) }}
-        </ng-container>
+        <div [innerHTML]="column.template(row[column.field], column, row)">
+        </div>
       </td>
     </tr>
   </ng-container>
