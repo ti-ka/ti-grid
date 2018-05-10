@@ -27,30 +27,18 @@ export class AppComponent {
     this.columns =  [
       { title: 'Make', field: 'make', sort: 'asc', onClick: (v) => alert(v) },
       { title: 'Model', field: 'model', filterBy: 'has', filter: 'e' },
-      { title: 'Price', field: 'price', align: 'right' }
+      { title: 'Price', field: 'price', align: 'right' },
+      { title: 'Discounted 25%', field: 'price', align: 'right', template: (v) => 0.75 * v }
     ];
-    const k =  { title: 'Discounted 25%', field: 'price', align: 'right', template: (v) => 0.75 * v };
-    this.columns.push(k);
 
-    this.actions = [
-      {
-        title: 'Approve',
-        classes: 'text-success',
-        icon: 'fal fa-check',
-        onClick: (row) => {
-          row['make'] = `${row['make']} (Approved)`;
-          alert(`${row['make']} is approved.`);
-        }
-      },
-      {
-        title: 'Delete',
-        classes: 'text-danger',
-        icon: 'fal fa-trash',
-        onClick: (row) => {
-          row.isDeleted = true;
-        }
-      },
-    ];
+    this.actions = [{
+      title: 'Delete',
+      classes: 'text-danger',
+      icon: 'fal fa-trash',
+      onClick: (row) => {
+        row.isDeleted = true;
+      }
+    }];
 
     this.nodes = [{
       'title': 'Start',
