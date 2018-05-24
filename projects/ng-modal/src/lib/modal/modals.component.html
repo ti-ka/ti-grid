@@ -1,0 +1,56 @@
+<ng-container *ngIf="isProjectorOn">
+    <ng-container *ngFor="let item of modals">
+        <div class="projector-screen projector"
+             [ngClass]="{'no-display' : item.docked}"
+             (click)="backgroundClicked($event, item)"
+             id="projected-{{item.id}}">
+            <div class="projected-item animated {{item.styles}} {{item.animation}}"
+                 [style.width.px]="item.width">
+                <div class="projected-item-content-title bg-color-1" *ngIf="item.showTitle">
+                    <div (click)="item.escape()" class="modal-item-title">
+                        {{ item.title || item.selector }}
+                    </div>
+                    <div class="projector-buttons" *ngIf="item.showTitleButtons">
+                        <div class="projector-dock" (click)="item.dock(true)" click-stop-propagation>
+                            <i class="fal fa-chevron-down"></i>
+                        </div>
+                        <div class="projector-close" (click)="item.close()" click-stop-propagation>
+                            <i class="fal fa-times"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="projected-item-content-body">
+                    <dynamic-content
+                            [selector]="item.selector"
+                            [componentClass]="item.componentClass"
+                            [data]="item.data"></dynamic-content>
+                </div>
+
+                <div class="buttons" *ngIf="item.buttons && item.buttons.length > 0">
+                    <button *ngFor="let btn of item.buttons" class="btn btn-{{btn.style}}"
+                            (click)="btn.buttonClicked()">{{ btn.text }}</button>
+                </div>
+
+            </div>
+        </div>
+    </ng-container>
+</ng-container>
+
+<div class="dock">
+    <ng-container *ngFor="let item of modals">
+        <div class="docked-item bg-color-1 no-display"
+             [ngClass]="{'no-display' : !item.docked}"
+             id="docked-{{item.id}}">
+
+            <div (click)="item.dock(false)" class="modal-item-title">
+                {{ item.title }}
+            </div>
+            <div class="projector-buttons">
+                <div class="projector-close" (click)="item.close()">
+                    <i class="fal fa-times"></i>
+                </div>
+            </div>
+
+        </div>
+    </ng-container>
+</div>

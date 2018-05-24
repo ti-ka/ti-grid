@@ -1,20 +1,21 @@
 export interface IColumn {
-  title: string;
-  field: string;
-  pipe?: 'currency' | 'date';
-  classes?: string;
-  sort?: 'asc' | 'desc' | null;
-  filterBy?: string;
-  filter?: string;
-  excludes?: string[];
-  onClick?: (value: any, column: IColumn, row: any) => void;
-  align?: string;
-  template?: (value: any, column: IColumn, row: any) => any;
+    title: string;
+    field: string;
+    classes?: string;
+    sort?: 'asc' | 'desc' | null;
+    filterOperator?: string;
+    filterText?: string;
+    excludes?: string[];
+    onClick?: (value: any, column: IColumn, row: any) => void;
+    align?: string;
+    template?: (value: any, column: IColumn, row: any) => any;
+    showColumnFilter?: boolean;
+    onFilter?: (column: IColumn) => void;
 }
 
 export interface IRowAction {
-  title: string;
-  classes?: string;
-  icon?: string;
-  onClick: (row: any, column: any) => void;
+    title: string;
+    classes?: string;
+    icon?: string;
+    onClick: (row: any, column: any) => void;
 }

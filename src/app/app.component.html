@@ -1,5 +1,16 @@
 <div class="container">
   <br />
+
+  <h4>In modal:</h4>
+
+  <button class="btn btn-primary btn-xs" (click)="openWorkflow()">Open Workflow</button>
+  <button class="btn btn-primary btn-xs" (click)="openConfirmation()">Open Confirmation</button>
+  <button class="btn btn-primary btn-xs" (click)="openGrid()">Open Grid</button>
+
+
+  <br />
+  <br />
+  <br />
   <ti-grid
     [columns]="columns"
     [rowActions]="actions"
@@ -11,3 +22,7 @@
   [lineColor]="'navy'"
   [nodes]="nodes"
   [connections]="connections"></ng-workflow>
+
+<router-outlet></router-outlet>
+<ng-modals></ng-modals>
+<ng-toasts></ng-toasts>

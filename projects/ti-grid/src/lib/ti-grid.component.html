@@ -3,15 +3,13 @@
   <tr>
     <th style="width: 50px" *ngIf="checkbox"></th>
     <th *ngFor="let column of columns">
-
-      <div class="column-options-toggle">
-        <i class="fal fa-align-right column-options-toggle-btn"
-           (click)="toggleColumnOptions(columnActions)"></i>
+      <div class="column-options-toggle" *ngIf="column.showColumnFilter">
+        <i class="fal fa-align-right column-options-toggle-btn" (click)="toggleColumnOptions(columnActions)"></i>
         <div class="column-options" #columnActions>
           <ul>
             <li>
               <div class="filter">
-                <select [(ngModel)]="column.filterBy">
+                <select [(ngModel)]="column.filterOperator">
                   <option value="has">Contains</option>
                   <option value="=">Equal to</option>
                   <option value="!=">Not Equal to</option>
@@ -20,64 +18,65 @@
                   <option value="<">Less than</option>
                   <option value="<=">LT or Equal</option>
                 </select>
-                <input [(ngModel)]="column.filter" placeholder="Filter by"/>
+                <input [(ngModel)]="column.showColumnFilter" placeholder="Filter by"/>
               </div>
             </li>
             <li>
               <div class="items-check" *ngFor="let item of columnValues(column)">
-
                 <div *ngIf="column.excludes.indexOf(item) === -1; else emptyCheckbox">
                   <div (click)="include(column, item)">
                     <i class="fal fa-check-square"></i>
                     <span>{{ item }}</span>
                   </div>
                 </div>
-
                 <ng-template  #emptyCheckbox>
                   <div (click)="exclude(column, item)">
                     <i  class="fal fa-square"></i>
                     <span>{{ item }}</span>
                   </div>
                 </ng-template>
-
               </div>
             </li>
           </ul>
         </div>
       </div>
-
       <div (click)="toggleColumnSort(column)">
         <i class="fal fa-sort-amount-down m-r-5" *ngIf="column.sort == 'desc'"></i>
         <i class="fal fa-sort-amount-up m-r-5" *ngIf="column.sort == 'asc'"></i>
-        <span>{{ column.title }}</span>
-
-        <span class="filter-badge" (click)="column.filter = ''" *ngIf="column.filter">
-                        {{ column.filterBy }} {{ column.filter }}
-                        &nbsp; <i class="fal fa-times"></i>
+        <span class="column-title">{{ column.title }}</span>
+        <span class="filter-badge" (click)="column.filterText = ''" *ngIf="column.filterText">
+                    <span *ngIf="['=','has'].indexOf(column.filterOperator) < 0">
+                    {{column.filterOperator}}
                     </span>
-
+                    {{ column.filterText }} &nbsp; <i class="fal fa-times"></i>
+                    </span>
         <span class="filter-badge" (click)="column.excludes = []" *ngIf="column.excludes.length > 0">
-                        excludes {{ column.excludes.join(', ') }}
-                        &nbsp; <i class="fal fa-times"></i>
+                    excludes {{ column.excludes.join(', ') }} &nbsp; <i class="fal fa-times"></i>
                     </span>
-
       </div>
-
-
     </th>
   </tr>
   </thead>
   <tbody (click)="hideColumnOptions()">
+  <tr>
+    <th *ngIf="checkbox" class="text-center p-0 va-middle">
+      <i class="fal fa-search"></i>
+    </th>
+    <th *ngFor="let column of columns" class="p-0">
+      <input class="form-control clean-input"
+             [ngModel]="column?.filterText"
+             (ngModelChange)="searchColumn($event, column)"  >
+    </th>
+  </tr>
   <tr *ngIf="selectedRow">
     <td colspan="100%">
                 <span *ngFor="let action of rowActions"
                       (click)="action.onClick(selectedRow); selectedRow = null"
                       class="m-r-20 pointer {{action.classes}}">
-                    <i [class]="action.icon"></i> &nbsp; {{ action.title }}
+                <i [class]="action.icon"></i> &nbsp; {{ action.title }}
                 </span>
     </td>
   </tr>
-
   <ng-container *ngFor="let row of filteredRows">
     <tr>
       <td class="text-center" *ngIf="checkbox">
@@ -85,15 +84,14 @@
         <i class="fal fa-square pointer"  (click)="selectedRow = row" *ngIf="selectedRow !== row"></i>
       </td>
       <td
-        *ngFor="let column of columns"
-        (click)="onCellClicked(row, column)"
-        class="{{ column.classes }} {{ column.onClick ? 'pointer' : '' }} text-{{column.align}}">
+              *ngFor="let column of columns"
+              (click)="onCellClicked(row, column)"
+              class="{{ column.classes }} {{ column.onClick ? 'pointer' : '' }} text-{{column.align}}">
         <div [innerHTML]="column.template(row[column.field], column, row)">
         </div>
       </td>
     </tr>
   </ng-container>
-
   <tr *ngIf="filteredRows.length === 0">
     <td class="no-records" colspan="100%">
       <div *ngIf="!this.rows">
@@ -107,23 +105,20 @@
       </div>
     </td>
   </tr>
-
   </tbody>
   <tfoot>
   <tr>
     <td colspan="100%">
       <div class="page-index">
-               <span *ngFor="let _page of pages; let i = index">
-                   <ng-container *ngIf="i > 0 && pages[i] - pages[i-1] > 1">
-                       ...
-                   </ng-container>
-                   <span (click)="page = _page" class="page-index-selector {{ page == _page ? 'active' : ''}}">{{ _page }}</span>
-               </span>
+                    <span *ngFor="let pg of pages; let i = index">
+                        <ng-container *ngIf="i > 0 && pages[i] - pages[i-1] > 1">
+                            ...
+                        </ng-container>
+                        <span (click)="refreshGrid(pg)" class="page-index-selector {{ currentPage == pg ? 'active' : ''}}">{{ pg }}</span>
+                    </span>
       </div>
-      <div>{{filteredCount}} filtered from {{totalCount}}</div>
+      <div>Showing {{ (totalCount == 0 && currentPage == 1) ? 0 : (currentPage - 1) * pageSize + 1}}-{{ currentPage * pageSize > totalCount ? totalCount : currentPage * pageSize}} of {{totalCount}}</div>
     </td>
   </tr>
   </tfoot>
 </table>
-
-

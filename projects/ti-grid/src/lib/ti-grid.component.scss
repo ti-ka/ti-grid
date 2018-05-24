@@ -3,29 +3,26 @@ thead th {
   vertical-align: top;
   background: #17aaba;
   color: #f1f1f1;
+  position: relative;
+}
+
+th .column-title {
+  padding-right: 30px;
 }
 
 .column-options-toggle {
   opacity: .3;
-  position: relative;
-  float: right;
+  position: absolute;
+  right: 1em;
+  top: .75em;
 }
+
 
 th:hover .column-options-toggle {
   opacity: 1;
 }
 
-.filter-badge {
-  font-size: .7em;
-  border-radius: 2px;
-  width: auto;
-  display: inline-block;
-  background: #333;
-  color: #e4e4e4;
-  padding: .25em .5em;
-  margin-left: 1em;
-  max-width: 150px;
-}
+
 
 .column-options {
   position: absolute;
@@ -124,6 +121,37 @@ ul li div.filter {
   padding: 20px;
 }
 
+.text-left { text-align: left }
+.text-center { text-align: center }
+.text-right { text-align: right }
+.text-justify { text-align: justify }
+
+.va-middle { vertical-align: middle }
+.p-0 { padding: 0 }
+
+input.form-control.clean-input {
+  border-radius: 0;
+  margin: 0;
+  width: 100%;
+  border: 0;
+  background: none;
+  &:focus, &:active {
+    box-shadow: none;
+  }
+}
+
+.filter-badge {
+  font-size: .7em;
+  border-radius: 2px;
+  width: auto;
+  display: inline-block;
+  background: #333;
+  color: #e4e4e4;
+  padding: .25em .5em;
+  margin-left: 1em;
+  max-width: 150px;
+}
+
 .page-index {
   float: right;
   .page-index-selector {
@@ -140,9 +168,3 @@ ul li div.filter {
     background: #e4e4e4;
   }
 }
-
-.text-left { text-align: left }
-.text-center { text-align: center }
-.text-right { text-align: right }
-.text-justify { text-align: justify }
-

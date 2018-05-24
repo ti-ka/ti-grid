@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 // From Npm:
 // import { IAction, IColumn } from 'ti-grid';
@@ -6,13 +6,15 @@ import { WorkflowConnection, WorkflowNode } from '../../projects/ti-workflow/src
 
 // From local npm:
 import { IRowAction, IColumn } from '../../projects/ti-grid/src/lib/ti-grid.interfaces';
+import { Confirm, Toast } from 'projects/ng-modal/src/public_api';
+import { Modal } from '../../projects/ng-modal/src/lib/modal/modal';
 
 @Component({
   selector: 'ti-root',
   templateUrl: './app.component.html',
   styles: []
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   actions: IRowAction[];
   columns: IColumn[];
@@ -26,7 +28,7 @@ export class AppComponent {
 
     this.columns =  [
       { title: 'Make', field: 'make', sort: 'asc', onClick: (v) => alert(v) },
-      { title: 'Model', field: 'model', filterBy: 'has', filter: 'e' },
+      { title: 'Model', field: 'model', filterOperator: 'has', filterText: 'e' },
       { title: 'Price', field: 'price', align: 'right' },
       { title: 'Discounted 25%', field: 'price', align: 'right', template: (v) => {
           return '<strong>$ ' + v * .75 + ' </strong>';
@@ -122,5 +124,38 @@ export class AppComponent {
 
   }
 
+  ngOnInit() {
+  }
+
+  openConfirmation() { Confirm.success('Message Confirmation', 'Are you sure to send a message?', 'Yes, sure', () => {
+    Toast.danger('Message Not sent', 'Your message has failed to send.', 'Retry', () => {
+        Toast.success('Message successfully sent', 'Your message has delivered.');
+      });
+    });
+  }
+
+  openWorkflow() {
+    Modal.create({
+      selector: 'ng-workflow',
+      title: 'Workflow',
+      data: {
+        nodes: this.nodes,
+        connections: this.connections
+      }
+    }).present();
+  }
+
+
+  openGrid() {
+    Modal.create({
+      selector: 'ti-grid',
+      title: 'Grid',
+      data: {
+        url: this.url,
+        columns: this.columns,
+        rowActions: this.actions
+      }
+    }).present();
+  }
 
 }

@@ -1,211 +1,258 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IColumn, IRowAction } from './ti-grid.interfaces';
+import { isNullOrUndefined } from 'util';
+import { consumeBinding } from '@angular/core/src/render3/instructions';
 
 @Component({
-  selector: 'ti-grid',
-  templateUrl: './ti-grid.component.html',
-  styleUrls: ['./ti-grid.component.scss']
+    selector: 'ti-grid',
+    templateUrl: './ti-grid.component.html',
+    styleUrls: ['./ti-grid.component.scss']
 })
 export class TiGridComponent implements OnInit {
 
-  @Input() columns: IColumn[];
-  @Input() url: string;
-  @Input() rows: any[];
-  @Input() rowActions: IRowAction[];
-  @Input() pageSize = 10;
-  @Input() page = 1;
-  @Input() checkbox = true;
-  selectedRow: any;
+    @Input() columns: IColumn[];
+    @Input() url: string;
+    @Input() rows: any[];
+    @Input() rowActions: IRowAction[];
+    @Input() pageSize = 10;
+    @Input() currentPage = 1;
+    @Input() checkbox = true;
+    @Input() customPaging = false;
 
-  // The following could be get props, but...
-  totalCount = 0;
-  filteredCount = 0;
+    @Output()
+    gridStateChanged: EventEmitter<number> = new EventEmitter<number>();
 
-  constructor(private http: HttpClient) {
-  }
+    selectedRow: any;
 
-  ngOnInit() {
-    this.columns.forEach(c => {
-      c.filterBy = c.filterBy || 'has';
-      c.filter = c.filter || '';
-      c.excludes = c.excludes || [];
-      c.template = c.template || ((v) => v);
-    });
-    if (this.url) {
-      this.http.get<any[]>(this.url).subscribe(data => {
-        this.rows = data;
-        this.totalCount = this.rows.length;
-      });
-    } else {
-      this.totalCount = this.rows ? this.rows.length : 0;
-    }
-  }
+    @Input() headers: HttpHeaders | { [header: string]: string | string[] };
 
-  get pages(): number[] {
-    let _pages =  Array.from(Array(Math.ceil(this.filteredCount / this.pageSize)))
-      .map((v, i) => i + 1);
-    if (_pages.length > 5) {
-      _pages = _pages.filter((v, i) => [1, this.page - 1, this.page, this.page + 1, _pages.length].indexOf(v) >= 0);
-    }
-    return _pages;
-  }
+    @Input() totalCount = 0;
+    filteredCount = 0;
 
-  columnValues(column: IColumn): any[] {
-    if (!this.rows) {
-      return [];
-    }
-    return this.rows.map(r => column.template(r[column.field], column, r)).filter((v, i, a) => a.indexOf(v) === i);
-  }
-
-  get filteredRows(): number[] {
-
-    if (!this.rows) {
-      return [];
+    constructor(private http: HttpClient) {
     }
 
-    let rows: any[] = this.rows.concat().filter(row => !row.isDeleted);
+    ngOnInit() {
+        this.columns.forEach(c => {
+            c.filterOperator = c.filterOperator || 'has';
+            c.showColumnFilter = c.showColumnFilter || false;
+            c.excludes = c.excludes || [];
+            c.template = c.template || ((v) => v);
+            c.onFilter = c.onFilter || ((v) => v);
+            c.filterOperator = 'has';
+        });
 
-    const filterColumns = this.columns.filter(c => c.excludes.length > 0 || (c.filter && c.filterBy));
-    const sortColumn = this.columns.find(c => c && c.sort === 'asc' || c.sort === 'desc' );
-
-    if (sortColumn) {
-      rows = this.applyColumnSort(rows, sortColumn);
+        if (this.url) {
+            this.fetchCurrentPage();
+        } else {
+            if (!this.customPaging){
+                this.totalCount = this.rows ? this.rows.length : 0;
+            }
+        }
     }
 
-    // Apply filters
-    filterColumns.forEach(column => {
-      rows = this.applyColumnFilter(rows, column);
-    });
+    fetchCurrentPage() {
+        const url = `${this.url}?page=${this.currentPage}&pageSize=${this.pageSize}`;
+        this.http.get<any>(url, {headers: this.headers}).subscribe(response => {
+            console.log(response instanceof Array);
+            if (response instanceof Array) {
+                this.rows = response;
+                this.totalCount = this.rows.length;
+            } else {
+                if (response.total) {
+                    this.totalCount = response.total;
+                }
+                if (response.data && response.data instanceof Array) {
+                    this.rows = response.data;
+                }
+            }
+            console.log("TotalCount", this.totalCount);
+        });
+    }
 
-    this.filteredCount = rows.length;
+    columnValues(column: IColumn): any[] {
+        if (!this.rows) {
+            return [];
+        }
+        return this.rows.map(r => column.template(r[column.field], column, r)).filter((v, i, a) => a.indexOf(v) === i);
+    }
+
+    get filteredRows(): number[] {
 
 
-    rows = rows.splice((this.page - 1) * this.pageSize, this.pageSize);
+        if (!this.rows || !(this.rows instanceof Array)) {
+            return [];
+        }
 
-    return rows;
-  }
+        let rows: any[] = this.rows.concat().filter(row => !row.isDeleted);
 
-  applyColumnFilter(rows: any[], column: IColumn): any[] {
-    return rows.filter(row => {
+        if (this.customPaging) {
+            return this.rows;
+        }
 
-      let accept = true;
-      const actualValue = row[column.field];
+        const filterColumns = this.columns.filter(c => c.excludes.length > 0 || (c.filterText && c.filterOperator));
+        const sortColumn = this.columns.find(c => c && c.sort === 'asc' || c.sort === 'desc' );
 
-      if (column.excludes.indexOf(actualValue) >= 0) {
-        return false;
-      }
+        if (sortColumn) {
+            rows = this.applyColumnSort(rows, sortColumn);
+        }
 
-      switch (column.filterBy) {
+        // Apply filters
+        filterColumns.forEach(column => {
+            rows = this.applyColumnFilter(rows, column);
+        });
 
-        case 'has':
-          accept = actualValue.toString().toLowerCase().indexOf(column.filter.toString().toLowerCase()) >= 0;
-          break;
+        this.filteredCount = rows.length;
 
-        case '=':
-          accept = actualValue == column.filter;
-          break;
 
-        case '!=':
-          accept = actualValue != column.filter;
-          break;
+        rows = rows.splice((this.currentPage - 1) * this.pageSize, this.pageSize);
 
-        case '>':
-          accept = actualValue > column.filter;
-          break;
+        return rows;
+    }
 
-        case '>=':
-          accept = actualValue >= column.filter;
-          break;
+    applyColumnFilter(rows: any[], column: IColumn): any[] {
+        return rows.filter(row => {
 
-        case '<':
-          accept = actualValue < column.filter;
-          break;
+            let accept = true;
+            const actualValue = column.template(row[column.field], column, row);
 
-        case '<=':
-          accept = actualValue <= column.filter;
-          break;
+            if (column.excludes.indexOf(actualValue) >= 0) {
+                return false;
+            }
 
-        default:
-          break;
-      }
+            switch (column.filterOperator) {
 
-      return accept;
-    });
-  }
+                case 'has':
+                    accept = actualValue.toString().toLowerCase().indexOf(column.filterText.toString().toLowerCase()) >= 0;
+                    break;
 
-  applyColumnSort(rows: any[], column: IColumn): any[] {
+                case '=':
+                    accept = actualValue == column.filterText;
+                    break;
+
+                case '!=':
+                    accept = actualValue != column.filterText;
+                    break;
+
+                case '>':
+                    accept = actualValue > column.filterText;
+                    break;
+
+                case '>=':
+                    accept = actualValue >= column.filterText;
+                    break;
+
+                case '<':
+                    accept = actualValue < column.filterText;
+                    break;
+
+                case '<=':
+                    accept = actualValue <= column.filterText;
+                    break;
+
+                default:
+                    break;
+            }
+
+            return accept;
+        });
+    }
+
+    applyColumnSort(rows: any[], column: IColumn): any[] {
+
+        // Gives the integer array of the passed 1-dimensional array
+        const indices = this.getSortedIndices(rows.map(r => column.template(r[column.field], column, r)), column.sort);
+
+        return indices.map(v => rows[v]);
+    }
 
     // Gives the integer array of the passed 1-dimensional array
-    const indices = this.getSortedIndices(rows.map(r => r[column.field]), column.sort);
+    getSortedIndices(arr: any[], sortBy: 'asc' | 'desc' | null): number[] {
 
-    return indices.map(v => rows[v]);
-  }
+        // Clone rows
+        // Replace undefined with null
+        // Because later we use undefined as index
+        arr = arr.map(v => v === undefined ?  null : v);
 
-  toggleColumnSort(column: IColumn) {
-    this.columns.filter(c => c !== column).forEach(c => c.sort = null);
-    column.sort = (column.sort === 'asc') ? 'desc' : 'asc';
-  }
+        let sorted: any[];
 
-  // Gives the integer array of the passed 1-dimensional array
-  getSortedIndices(arr: any[], sortBy: 'asc' | 'desc' | null): number[] {
+        if (sortBy === 'desc') {
+            sorted = arr.slice().sort().reverse();
+        } else {
+            sorted = arr.slice().sort();
+        }
 
-    // Clone rows
-    // Replace undefined with null
-    // Because later we use undefined as index
-    arr = arr.map(v => v === undefined ?  null : v);
+        return sorted.map(v => {
+            const index = arr.indexOf(v);
+            arr[index] = undefined;
+            return index;
+        });
 
-    let sorted: any[];
-
-    if (sortBy === 'desc') {
-      sorted = arr.slice().sort().reverse();
-    } else {
-      sorted = arr.slice().sort();
     }
 
-    return sorted.map(v => {
-      const index = arr.indexOf(v);
-      arr[index] = undefined;
-      return index;
-    });
-
-  }
-
-  toggleColumnOptions(element) {
-
-    // Hide all other context menus
-    const toHide: any[] = Array.from(document.querySelectorAll('.column-options'))
-      .filter(e => e !== element);
-
-    toHide.forEach(e => e.style.display = 'none');
-
-    if (element.style.display === 'block') {
-      element.style.display = 'none';
-    } else {
-      element.style.display = 'block';
+    hideColumnOptions() {
+        // Hide all other context menus
+        const toHide: any[] = Array.from(document.querySelectorAll('.column-options'));
+        toHide.forEach(e => e.style.display = 'none');
     }
-  }
 
-  hideColumnOptions() {
-    // Hide all other context menus
-    const toHide: any[] = Array.from(document.querySelectorAll('.column-options'));
-    toHide.forEach(e => e.style.display = 'none');
-  }
-
-  onCellClicked(row: any, column: IColumn) {
-    if (column.onClick) {
-      column.onClick(row[column.field], row, column);
+    onCellClicked(row: any, column: IColumn) {
+        if (column.onClick) {
+            column.onClick(row[column.field], row, column);
+        }
     }
-  }
 
-  include(column: IColumn, value: any) {
-    column.excludes.push(value);
-  }
-
-  exclude(column: IColumn, value: any) {
-    const index = column.excludes.indexOf(value);
-    if (index >= 0) {
-      column.excludes.splice(index, 1);
+    include(column: IColumn, value: any) {
+        column.excludes.push(value);
     }
-  }
+
+    exclude(column: IColumn, value: any) {
+        const index = column.excludes.indexOf(value);
+        if (index >= 0) {
+            column.excludes.splice(index, 1);
+        }
+    }
+
+    searchColumn(searchText: string, column: IColumn) {
+        column.filterOperator = 'has';
+        column.filterText = searchText;
+        this.refreshGrid();
+    }
+
+    get pages(): number[] {
+        let _pages =  Array.from(Array(Math.ceil(this.totalCount / this.pageSize)))
+            .map((v, i) => i + 1);
+        if (_pages.length > 5) {
+            _pages = _pages.filter((v, i) => [1, this.currentPage - 1, this.currentPage, this.currentPage + 1, _pages.length].indexOf(v) >= 0);
+        }
+        return _pages;
+    }
+
+    toggleColumnOptions(element) {
+
+        // Hide all other context menus
+        const toHide: any[] = Array.from(document.querySelectorAll('.column-options'))
+            .filter(e => e !== element);
+
+        toHide.forEach(e => e.style.display = 'none');
+
+        if (element.style.display === 'block') {
+            element.style.display = 'none';
+        } else {
+            element.style.display = 'block';
+        }
+    }
+
+    toggleColumnSort(column: IColumn) {
+        this.columns.filter(c => c !== column).forEach(c => c.sort = null);
+        column.sort = (column.sort === 'asc') ? 'desc' : 'asc';
+        this.refreshGrid();
+    }
+
+    refreshGrid(page?: number) {
+        this.currentPage = page || this.currentPage;
+        this.gridStateChanged.emit(this.currentPage);
+    }
+
 }

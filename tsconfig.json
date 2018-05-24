@@ -28,6 +28,9 @@
       ],
       "ti-workflow": [
         "dist/ti-workflow"
+      ],
+      "ng-modal": [
+        "dist/ng-modal"
       ]
     }
   }
