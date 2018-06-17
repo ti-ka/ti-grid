@@ -1,18 +1,19 @@
 import { Uuid } from '../core/Uuid';
 
 export class Toast {
+
+    public static _toasts: Toast[] = [];
+
     id: string;
     title: string;
     message: string;
     time = 10000;
-    style: 'primary' | 'danger' | 'warning' | 'info' | 'success' | 'default' = 'default';
+    style : 'primary' | 'danger' | 'warning' | 'info' | 'success' | 'default' = 'default';
     animation = 'slideInRight';
     button: string;
     onClick: (toast?: Toast) => void;
     data: any;
     private exitDelayForAnimation = 300;
-
-    public static _toasts: Toast[] = [];
 
     constructor() {
         this.id = this.id || Uuid.generate();
@@ -63,6 +64,12 @@ export class Toast {
         }, this.exitDelayForAnimation);
     }
 
+    private static checkIfSetupIsOk() {
+        if (document.querySelector('ng-toasts') === null) {
+            console.warn('Please add <ng-toasts></ng-toasts> in your app root.')
+        }
+    }
+
     public static create(toast: object): Toast {
         if (toast instanceof Toast) {
             return toast;
@@ -70,37 +77,6 @@ export class Toast {
         let newToast: Toast;
         newToast = Object.assign(new Toast(), toast);
         return newToast;
-    }
-
-    public static info(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void) {
-        return this.prepare(title, message, button, onClick)
-            .setStyle('info')
-            .present();
-    }
-
-    public static error(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void) {
-        return this.prepare(title, message, button, onClick)
-            .setStyle('danger')
-            .present();
-    }
-
-    public static danger(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void) {
-        return this.prepare(title, message, button, onClick)
-            .setTime(null)
-            .setStyle('danger')
-            .present();
-    }
-
-    public static success(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void) {
-        return this.prepare(title, message, button, onClick)
-            .setStyle('success')
-            .present();
-    }
-
-    public static warning(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void) {
-        return this.prepare(title, message, button, onClick)
-            .setStyle('warning')
-            .present();
     }
 
     private static prepare(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
@@ -112,10 +88,24 @@ export class Toast {
         return toast;
     }
 
-    private static checkIfSetupIsOk() {
-        if (document.querySelector('app-toasts') === null) {
-            console.warn('Please add <ng-toasts></ng-toasts> in your app root.')
-        }
+    public static info(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+        return Toast.prepare(title, message, button, onClick).setStyle('info').present();
+    }
+
+    public static error(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+        return Toast.prepare(title, message, button, onClick).setStyle('danger').present();
+    }
+
+    public static danger(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+        return Toast.prepare(title, message, button, onClick).setTime(null).setStyle('danger').present();
+    }
+
+    public static success(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+        return Toast.prepare(title, message, button, onClick).setStyle('success').present();
+    }
+
+    public static warning(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+        return Toast.prepare(title, message, button, onClick).setStyle('warning').present();
     }
 
     public static removeToast(toast: Toast) {

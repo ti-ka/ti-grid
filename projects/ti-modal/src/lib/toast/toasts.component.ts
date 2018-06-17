@@ -6,7 +6,7 @@ import { Toast } from './toast';
     template: `
         <div id="toasts">
             <div class="toast animated border-color-{{toast.style}} {{toast.animation}}" *ngFor="let toast of toasts">
-              <div class="line-accent bg-{{toast.style}} background-{{toast.style}}"></div>
+                <div class="line-accent bg-{{toast.style}} background-{{toast.style}}"></div>
                 <div class="dismiss text-light-gray" (click)="toast.destroy()"><i class="fal fa-times"></i></div>
                 <div class="title color-{{toast.style}} text-{{toast.style}}" *ngIf="toast.title">{{toast.title}}</div>
                 <div class="content" *ngIf="toast.message">{{toast.message}}</div>

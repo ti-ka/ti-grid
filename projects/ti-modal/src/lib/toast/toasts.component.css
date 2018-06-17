@@ -1,0 +1,55 @@
+#toasts {
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    width: 300px;
+    max-width: 90%;
+    z-index: 10002;
+}
+
+#toasts .toast {
+    background: #f1f1f1;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+#toasts .toast .title {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+#toasts .toast .content {
+    font-size: 1em;
+}
+
+#toasts .toast .dismiss {
+    float: right;
+    cursor: pointer;
+}
+
+#toasts .toast .btn {
+    margin-top: 10px;
+}
+
+
+.line-accent {
+  height: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.text-light-gray {
+  color: lightgray;
+}
+
+.text-light-gray:hover {
+  color: #555555;
+}
+
+.content {
+  color: #555555;
+}

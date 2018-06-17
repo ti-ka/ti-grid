@@ -238,6 +238,46 @@
           }
         }
       }
+    },
+    "ti-modal": {
+      "root": "projects/ti-modal",
+      "sourceRoot": "projects/ti-modal/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ti-modal/tsconfig.lib.json",
+            "project": "projects/ti-modal/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/ti-modal/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ti-modal/src/test.ts",
+            "tsConfig": "projects/ti-modal/tsconfig.spec.json",
+            "karmaConfig": "projects/ti-modal/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ti-modal/tsconfig.lib.json",
+              "projects/ti-modal/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ti-grid-demo"
