@@ -217,6 +217,7 @@ export class TiGridComponent implements OnInit {
     searchColumn(searchText: string, column: IColumn) {
         column.filterOperator = 'has';
         column.filterText = searchText;
+        this.currentPage = 1;
         this.refreshGrid();
     }
 
