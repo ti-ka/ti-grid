@@ -10,10 +10,14 @@ import { Confirm } from './confirm';
         <h4 class='title color-{{model.style}} text-{{model.style}}'>{{model.title}}</h4>
         <hr />
         <div class='content'>{{model.message}}</div>
-        <button class='btn btn-{{model.style}}' (click)='model.onConfirmation(); model.closeWindow();'>
+        <button class='btn btn-{{model.style}}'
+                *ngIf="model.confirmButton"
+                (click)='model.onConfirmation(); model.closeWindow();'>
           {{ model.confirmButton }}
         </button>
-        <button class='btn btn-default' (click)='model.onCancellation(); model.closeWindow();'>
+        <button class='btn btn-default'
+                *ngIf="model.cancelButton"
+                (click)='model.onCancellation(); model.closeWindow();'>
           {{ model.cancelButton }}
         </button>
       </div>

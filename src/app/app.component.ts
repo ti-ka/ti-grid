@@ -6,7 +6,7 @@ import { WorkflowConnection, WorkflowNode } from '../../projects/ti-workflow/src
 
 // From local npm:
 import { IRowAction, IColumn } from '../../projects/ti-grid/src/lib/ti-grid.interfaces';
-import { Confirm, Toast } from 'projects/ti-modal/src/public_api';
+import {Alert, Confirm, Toast} from "projects/ti-modal/src/public_api";
 import { Modal } from 'projects/ti-modal/src/lib/modal/modal';
 
 @Component({
@@ -27,11 +27,16 @@ export class AppComponent implements OnInit {
         this.url = 'https://api.myjson.com/bins/15psn9';
 
         this.columns =  [
-            { title: 'Make', field: 'make', sort: 'asc', onClick: (v) => alert(v) },
-            { title: 'Model', field: 'model', filterOperator: 'has', filterText: 'e', template: (v) => {
-                return `<img src='https://loremflickr.com/60/60/${v}' class="pull-left float-left m-r-10" /> <p>${v}</p>`;
+            {
+                title: 'Make',
+                field: 'make',
+                sort: 'asc',
+                onClick: (v) => alert(v),
+                template: (v) => {
+                    return `<img src='https://loremflickr.com/200/200/${v}' class="pull-left float-left m-r-10" /> <p>${v}</p>`;
                 }
             },
+            { title: 'Model', field: 'model', filterOperator: 'has', filterText: 'e'},
             { title: 'Price', field: 'price', align: 'right' },
             { title: 'Discounted 25%', field: 'price', align: 'right', template: (v) => {
                     return '<strong>$ ' + v * .75 + ' </strong>';
@@ -44,7 +49,9 @@ export class AppComponent implements OnInit {
             classes: 'text-danger',
             icon: 'fal fa-trash',
             onClick: (row) => {
-                row.isDeleted = true;
+                Confirm.danger('Delete confirmation', 'Are you sure you want to delete?', 'Yes, delete', () => {
+                    row.isDeleted = true;
+                });
             }
         }];
 
@@ -130,11 +137,12 @@ export class AppComponent implements OnInit {
     ngOnInit() {
     }
 
-    openConfirmation() { Confirm.success('Message Confirmation', 'Are you sure to send a message?', 'Yes, sure', () => {
-        Toast.danger('Message Not sent', 'Your message has failed to send.', 'Retry', () => {
-            Toast.success('Message successfully sent', 'Your message has delivered.');
+    openConfirmation() {
+        Confirm.success('Message Confirmation', 'Are you sure to send a message?', 'Yes, sure', () => {
+            Toast.danger('Message Not sent', 'Your message has failed to send.', 'Retry', () => {
+                Alert.success('Message successfully sent', 'Your message has delivered.');
+            });
         });
-    });
     }
 
     openWorkflow() {

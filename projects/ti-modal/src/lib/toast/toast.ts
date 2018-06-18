@@ -8,12 +8,14 @@ export class Toast {
     title: string;
     message: string;
     time = 10000;
-    style : 'primary' | 'danger' | 'warning' | 'info' | 'success' | 'default' = 'default';
+    style: 'primary' | 'danger' | 'warning' | 'info' | 'success' | 'default' = 'default';
     animation = 'slideInRight';
     button: string;
     onClick: (toast?: Toast) => void;
     data: any;
     private exitDelayForAnimation = 300;
+    protected presented = false;
+    protected timeout;
 
     constructor() {
         this.id = this.id || Uuid.generate();
@@ -21,6 +23,10 @@ export class Toast {
     }
 
     public present(): Toast {
+        if (this.presented) {
+            return;
+        }
+        this.presented = true;
         Toast._toasts.push(this);
         this.setTimeOutForAutoExit();
         return this;
@@ -42,13 +48,17 @@ export class Toast {
     }
 
     public setTime(time: number | null): Toast {
-      this.time = time;
-      return this;
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+        }
+        this.time = time;
+        this.setTimeOutForAutoExit();
+        return this;
     }
 
     private setTimeOutForAutoExit() {
         if (this.time > 0) {
-            setTimeout(() => {
+            this.timeout = setTimeout(() => {
                 const index = Toast._toasts.indexOf(this);
                 Toast._toasts.splice(index, 1);
             }, this.time);
@@ -85,27 +95,28 @@ export class Toast {
         toast.message = message;
         toast.button = button;
         toast.onClick = onClick;
+        toast.present();
         return toast;
     }
 
     public static info(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
-        return Toast.prepare(title, message, button, onClick).setStyle('info').present();
+        return Toast.prepare(title, message, button, onClick).setStyle('info');
     }
 
     public static error(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
-        return Toast.prepare(title, message, button, onClick).setStyle('danger').present();
+        return Toast.prepare(title, message, button, onClick).setTime(0).setStyle('danger');
     }
 
     public static danger(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
-        return Toast.prepare(title, message, button, onClick).setTime(null).setStyle('danger').present();
+        return Toast.prepare(title, message, button, onClick).setTime(0).setStyle('danger');
     }
 
     public static success(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
-        return Toast.prepare(title, message, button, onClick).setStyle('success').present();
+        return Toast.prepare(title, message, button, onClick).setStyle('success');
     }
 
     public static warning(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
-        return Toast.prepare(title, message, button, onClick).setStyle('warning').present();
+        return Toast.prepare(title, message, button, onClick).setStyle('warning');
     }
 
     public static removeToast(toast: Toast) {
