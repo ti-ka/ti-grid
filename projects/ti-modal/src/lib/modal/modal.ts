@@ -108,7 +108,7 @@ export class Modal {
         setTimeout(() => {
             this.animation = 'slideInRight';
             // To-Do: Investigate this behaviour
-            // modal.docked = dock;
+            this.docked = behaviour;
             if (behaviour) {
                 document.querySelector('#projected-' + this.id).classList.add('no-display');
                 document.querySelector('#docked-' + this.id).classList.remove('no-display');

@@ -7,7 +7,7 @@
             <div class="projected-item animated {{item.styles}} {{item.animation}}"
                  [style.width.px]="item.width">
                 <div class="projected-item-content-title bg-color-1" *ngIf="item.showTitle">
-                    <div (click)="item.escape()" class="modal-item-title">
+                    <div class="modal-item-title">
                         {{ item.title || item.selector }}
                     </div>
                     <div class="projector-buttons" *ngIf="item.showTitleButtons">
