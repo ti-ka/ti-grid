@@ -62,7 +62,7 @@ export class Confirm {
     public present() {
         const modal = new Modal();
         modal.showTitle = false;
-        modal.selector = 'ng-confirm';
+        modal.selector = 'ng-plus-confirm';
         modal.styles = 'modal-alert';
         modal.animation = 'zoomIn border-none';
         modal.width = 400;

@@ -7,7 +7,7 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "ti",
+      "prefix": "ngplus",
       "schematics": {
         "@schematics/angular:component": {
           "inlineStyle": true,
@@ -123,7 +123,7 @@
       "root": "projects/ti-grid",
       "sourceRoot": "projects/ti-grid/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "ngplus",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -163,7 +163,7 @@
       "root": "projects/ti-workflow",
       "sourceRoot": "projects/ti-workflow/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "ngplus",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -203,7 +203,7 @@
       "root": "projects/ti-modal",
       "sourceRoot": "projects/ti-modal/src",
       "projectType": "library",
-      "prefix": "lib",
+      "prefix": "ngplus",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",

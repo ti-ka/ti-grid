@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Confirm } from './confirm';
 
 @Component({
-    selector: 'ti-confirm',
+    selector: 'ng-plus-confirm',
     styleUrls: ['confirm.component.css', '../assets/animate.css'],
     template: `
       <div class='confirm animated border-color-{{model.style}}'>

@@ -5,10 +5,14 @@ import { DynamicContentComponent } from './core/dynamic-content.component';
 import { ClickStopPropagationDirective } from './core/click-stop-propagaton.directive';
 import { ToastsComponent } from './toast/toasts.component';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
+        RouterModule.forRoot([
+            { path: 'ng-plus-confirm', component: ConfirmComponent },
+        ])
     ],
     declarations: [
         ClickStopPropagationDirective,

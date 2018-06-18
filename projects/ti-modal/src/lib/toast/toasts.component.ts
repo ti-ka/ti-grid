@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { Toast } from './toast';
 
 @Component({
-    selector: 'ng-toasts',
+    selector: 'ng-plus-toasts',
     template: `
         <div id="toasts">
             <div class="toast animated border-color-{{toast.style}} {{toast.animation}}" *ngFor="let toast of toasts">

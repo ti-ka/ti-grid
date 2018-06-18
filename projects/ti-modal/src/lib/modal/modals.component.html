@@ -3,7 +3,7 @@
         <div class="projector-screen projector"
              [ngClass]="{'no-display' : item.docked}"
              (click)="backgroundClicked($event, item)"
-             id="projected-{{item.id}}">
+             id="{{item.id}}">
             <div class="projected-item animated {{item.styles}} {{item.animation}}"
                  [style.width.px]="item.width">
                 <div class="projected-item-content-title bg-color-1" *ngIf="item.showTitle">
@@ -11,19 +11,19 @@
                         {{ item.title || item.selector }}
                     </div>
                     <div class="projector-buttons" *ngIf="item.showTitleButtons">
-                        <div class="projector-dock" (click)="item.dock(true)" click-stop-propagation>
+                        <div class="projector-dock" (click)="item.dock(true)" ngplusClickStopPropagation>
                             <i class="fal fa-chevron-down"></i>
                         </div>
-                        <div class="projector-close" (click)="item.close()" click-stop-propagation>
+                        <div class="projector-close" (click)="item.close()" ngplusClickStopPropagation>
                             <i class="fal fa-times"></i>
                         </div>
                     </div>
                 </div>
                 <div class="projected-item-content-body">
-                    <dynamic-content
+                    <ngplus-dynamic-content
                             [selector]="item.selector"
                             [componentClass]="item.componentClass"
-                            [data]="item.data"></dynamic-content>
+                            [data]="item.data"></ngplus-dynamic-content>
                 </div>
 
                 <div class="buttons" *ngIf="item.buttons && item.buttons.length > 0">

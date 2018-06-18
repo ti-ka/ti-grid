@@ -25,8 +25,8 @@ export class Modal {
     }
 
     private static checkIfSetupIsOk() {
-        if (document.querySelector('ng-modals') === null) {
-            console.warn('Please add <ng-modals></ng-modals> in your app root.');
+        if (document.querySelector('ng-plus-modals') === null) {
+            console.warn('Please add <ng-plus-modals></ng-plus-modals> in your app root.');
         }
     }
 
@@ -40,6 +40,38 @@ export class Modal {
             return Object.assign(new Modal(), { selector: modal, title: modal });
         } else {
             return Object.assign(new Modal(), modal);
+        }
+    }
+
+    public static closeModal(modal: Modal) {
+        const index = Modal._modals.indexOf(modal);
+        modal.close();
+    }
+
+    public static closeModalById(id: string) {
+        const modal = Modal._modals.find(m => m.id === id);
+        if (modal) {
+            modal.close();
+        }
+    }
+
+    public static closeOpenModals() {
+        this._modals.filter(m => !m.docked).forEach(m => m.close());
+    }
+
+    public static closeParentModal(element?: Element | Event) {
+
+        console.log(element);
+
+        let projected: Element;
+        if (element && element instanceof Element) {
+            projected = element.closest('.projector');
+        } else if (element && element instanceof Event && element.srcElement instanceof Element) {
+            projected = element.srcElement.closest('.projector');
+        }
+
+        if (projected && projected.id) {
+            Modal.closeModalById(projected.id);
         }
     }
 
@@ -97,11 +129,6 @@ export class Modal {
     exitImmediately() {
         const index = Modal._modals.indexOf(this);
         Modal._modals.splice(index, 1);
-    }
-
-    public static removeModal(modal: Modal) {
-        const index = Modal._modals.indexOf(modal);
-        modal.close();
     }
 
 }

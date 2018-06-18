@@ -67,7 +67,7 @@ export class TiGridComponent implements OnInit {
                     this.rows = response.data;
                 }
             }
-            console.log("TotalCount", this.totalCount);
+            console.log('Total Count', this.totalCount);
         });
     }
 

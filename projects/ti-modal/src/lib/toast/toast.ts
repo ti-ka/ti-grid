@@ -51,7 +51,7 @@ export class Toast {
             setTimeout(() => {
                 const index = Toast._toasts.indexOf(this);
                 Toast._toasts.splice(index, 1);
-            }, this.time)
+            }, this.time);
         }
     }
 
@@ -65,8 +65,8 @@ export class Toast {
     }
 
     private static checkIfSetupIsOk() {
-        if (document.querySelector('ng-toasts') === null) {
-            console.warn('Please add <ng-toasts></ng-toasts> in your app root.')
+        if (document.querySelector('ng-plus-toasts') === null) {
+            console.warn('Please add <ng-plus-toasts></ng-plus-toasts> in your app root.');
         }
     }
 

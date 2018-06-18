@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Modal } from './modal';
 
 @Component({
-    selector: 'ng-modals',
+    selector: 'ng-plus-modals',
     templateUrl: 'modals.component.html',
     styleUrls: ['modals.component.css', '../assets/animate.css']
 })

@@ -1,28 +1,31 @@
 <div class="container">
-  <br />
+    <br />
 
-  <h4>In modal:</h4>
+    <h4>In modal:</h4>
 
-  <button class="btn btn-primary btn-xs" (click)="openWorkflow()">Open Workflow</button>
-  <button class="btn btn-primary btn-xs" (click)="openConfirmation()">Open Confirmation</button>
-  <button class="btn btn-primary btn-xs" (click)="openGrid()">Open Grid</button>
+    <button class="btn btn-primary btn-xs" (click)="openWorkflow()">Open Workflow</button>
+    <button class="btn btn-primary btn-xs" (click)="openConfirmation()">Open Confirmation</button>
+    <button class="btn btn-primary btn-xs" (click)="openGrid()">Open Grid</button>
 
 
-  <br />
-  <br />
-  <br />
-  <ti-grid
-    [columns]="columns"
-    [rowActions]="actions"
-    [url]="url">
-  </ti-grid>
+    <br />
+    <br />
+    <br />
+    <ti-grid
+        [pageSize]="10"
+        [columns]="columns"
+        [rowActions]="actions"
+        [url]="url">
+    </ti-grid>
 </div>
 
 <ng-workflow
-  [lineColor]="'navy'"
-  [nodes]="nodes"
-  [connections]="connections"></ng-workflow>
+    [lineColor]="'navy'"
+    [nodes]="nodes"
+    [connections]="connections"></ng-workflow>
 
 <router-outlet></router-outlet>
-<ng-modals></ng-modals>
-<ng-toasts></ng-toasts>
+
+<ng-plus-toasts></ng-plus-toasts>
+<ng-plus-modals></ng-plus-modals>
+

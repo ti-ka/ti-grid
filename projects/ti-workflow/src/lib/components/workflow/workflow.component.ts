@@ -12,7 +12,7 @@ export class WorkflowComponent implements OnInit {
     @Input() public nodes: WorkflowNode[];
     @Input() public connections: WorkflowConnection[];
     @Input() workflow: Workflow;
-    @Input() gridSize: number = 10;
+    @Input() gridSize = 10;
     @Input() lineColor = 'darkgray';
 
     // Do not allow connection from same node it itself
@@ -40,6 +40,5 @@ export class WorkflowComponent implements OnInit {
         }
         return () => {};
     }
-
 }
 
