@@ -138,11 +138,12 @@ export class AppComponent implements OnInit {
     }
 
     openConfirmation() {
-        Confirm.success('Message Confirmation', 'Are you sure to send a message?', 'Yes, sure', () => {
+        const confirm = Confirm.success('Message Confirmation', 'Are you sure to send a message?', 'Yes, sure', () => {
             Toast.danger('Message Not sent', 'Your message has failed to send.', 'Retry', () => {
-                Alert.success('Message successfully sent', 'Your message has delivered.');
+                Alert.success('Your message has delivered.');
             });
-        });
+        }).setIcon('users');
+
     }
 
     openWorkflow() {
@@ -153,7 +154,7 @@ export class AppComponent implements OnInit {
                 nodes: this.nodes,
                 connections: this.connections
             }
-        }).present();
+        });
     }
 
 
@@ -166,7 +167,7 @@ export class AppComponent implements OnInit {
                 columns: this.columns,
                 rowActions: this.actions
             }
-        }).present();
+        });
     }
 
 }

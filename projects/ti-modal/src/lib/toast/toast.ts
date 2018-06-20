@@ -24,7 +24,7 @@ export class Toast {
 
     public present(): Toast {
         if (this.presented) {
-            return;
+            return this;
         }
         this.presented = true;
         Toast._toasts.push(this);
@@ -86,10 +86,10 @@ export class Toast {
         }
         let newToast: Toast;
         newToast = Object.assign(new Toast(), toast);
-        return newToast;
+        return newToast.present();
     }
 
-    private static prepare(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+    private static prepare(title: string, message?: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
         const toast = new Toast();
         toast.title = title;
         toast.message = message;
@@ -99,23 +99,43 @@ export class Toast {
         return toast;
     }
 
-    public static info(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+    public static info(title: string, message?: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+        if (!message) {
+            message = title;
+            title = 'Information';
+        }
         return Toast.prepare(title, message, button, onClick).setStyle('info');
     }
 
-    public static error(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+    public static error(title: string, message?: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+        if (!message) {
+            message = title;
+            title = 'Error';
+        }
         return Toast.prepare(title, message, button, onClick).setTime(0).setStyle('danger');
     }
 
-    public static danger(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+    public static danger(title: string, message?: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+        if (!message) {
+            message = title;
+            title = 'Danger';
+        }
         return Toast.prepare(title, message, button, onClick).setTime(0).setStyle('danger');
     }
 
-    public static success(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+    public static success(title: string, message?: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+        if (!message) {
+            message = title;
+            title = 'Success';
+        }
         return Toast.prepare(title, message, button, onClick).setStyle('success');
     }
 
-    public static warning(title: string, message: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+    public static warning(title: string, message?: string, button?: string, onClick?: (toast?: Toast) => void): Toast {
+        if (!message) {
+            message = title;
+            title = 'Warning';
+        }
         return Toast.prepare(title, message, button, onClick).setStyle('warning');
     }
 

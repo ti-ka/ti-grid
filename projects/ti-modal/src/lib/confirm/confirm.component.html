@@ -1,0 +1,26 @@
+<div class='confirm animated border-color-{{model.style}}'>
+    <div class="line-accent bg-{{model.style}} background-{{model.style}}"></div>
+    <h4 class='title color-{{model.style}} text-{{model.style}}'>{{model.title}}</h4>
+    <hr />
+    <div class='content'>
+        <div class="text-center color-{{model.style}} text-{{model.style}}" *ngIf="model.icon">
+            <i class="fa fal fa-5x fa-{{model.icon}}"></i>
+        </div>
+
+        <div class="text-center" *ngIf="model.imgUrl">
+            <img [src]="model.imgUrl" />
+        </div>
+        {{model.message}}
+    </div>
+
+    <button class='btn btn-{{model.style}}'
+            *ngIf="model.confirmButton"
+            (click)='model.onConfirmation(); model.closeWindow();'>
+        {{ model.confirmButton }}
+    </button>
+    <button class='btn btn-default'
+            *ngIf="model.cancelButton"
+            (click)='model.onCancellation(); model.closeWindow();'>
+        {{ model.cancelButton }}
+    </button>
+</div>
