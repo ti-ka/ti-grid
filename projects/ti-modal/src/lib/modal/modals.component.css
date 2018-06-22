@@ -54,6 +54,14 @@
     overflow: auto;
 }
 
+ngplus-dynamic-content, .dynamic-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+}
+
 .projector-buttons, .dock-buttons {
     position: absolute;
     right: 1em;

@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
 
     constructor() {
 
-        this.url = 'https://api.myjson.com/bins/15psn9';
+        this.url = 'https://api.myjson.com/bins/17glb6';
 
         this.columns =  [
             {
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
                     return `<img src='https://loremflickr.com/200/200/${v}' class="pull-left float-left m-r-10" /> <p>${v}</p>`;
                 }
             },
-            { title: 'Model', field: 'model', filterOperator: 'has', filterText: 'e'},
+            { title: 'Model', field: 'model'},
             { title: 'Price', field: 'price', align: 'right' },
             { title: 'Discounted 25%', field: 'price', align: 'right', template: (v) => {
                     return '<strong>$ ' + v * .75 + ' </strong>';
