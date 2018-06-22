@@ -5,8 +5,8 @@ import { Component, OnInit } from '@angular/core';
 import { WorkflowConnection, WorkflowNode } from '../../projects/ti-workflow/src/lib/models/workflow-models';
 
 // From local npm:
-import { IRowAction, IColumn } from '../../projects/ti-grid/src/lib/ti-grid.interfaces';
-import {Alert, Confirm, Toast} from "projects/ti-modal/src/public_api";
+import { IRowAction, IColumn } from 'projects/ti-grid/src/lib/ti-grid.interfaces';
+import {Alert, Confirm, Toast} from 'projects/ti-modal/src/public_api';
 import { Modal } from 'projects/ti-modal/src/lib/modal/modal';
 
 @Component({
@@ -21,6 +21,8 @@ export class AppComponent implements OnInit {
     nodes: WorkflowNode[] = [];
     connections: WorkflowConnection[] = [];
     url: string;
+
+    imageData: string;
 
     constructor() {
 
@@ -137,8 +139,15 @@ export class AppComponent implements OnInit {
     ngOnInit() {
     }
 
+    clearSignature(pad) {
+        Confirm.delete('Are you sure to delete the signature?', () => {
+            pad.clear();
+            Toast.success('The signature has been cleared.');
+        }).setIcon('times');
+    }
+
     openConfirmation() {
-        const confirm = Confirm.success('Message Confirmation', 'Are you sure to send a message?', 'Yes, sure', () => {
+        Confirm.success('Message Confirmation', 'Are you sure to send a message?', 'Yes, sure', () => {
             Toast.danger('Message Not sent', 'Your message has failed to send.', 'Retry', () => {
                 Alert.success('Your message has delivered.');
             });

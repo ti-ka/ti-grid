@@ -238,6 +238,46 @@
           }
         }
       }
+    },
+    "signature-pad": {
+      "root": "projects/signature-pad",
+      "sourceRoot": "projects/signature-pad/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/signature-pad/tsconfig.lib.json",
+            "project": "projects/signature-pad/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/signature-pad/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/signature-pad/src/test.ts",
+            "tsConfig": "projects/signature-pad/tsconfig.spec.json",
+            "karmaConfig": "projects/signature-pad/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/signature-pad/tsconfig.lib.json",
+              "projects/signature-pad/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "ti-grid-demo"

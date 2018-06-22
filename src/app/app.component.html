@@ -10,6 +10,18 @@
 
     <br />
     <br />
+
+    <ng-signature-pad #pad
+        (signed)="imageData = $event"></ng-signature-pad>
+    <button class="btn btn-default" (click)="clearSignature(pad)">Clear</button>
+
+    <br />
+    <br />
+    <p style="border: 2px solid red" *ngIf="imageData">
+        <img [src]="imageData" style="width: 100%">
+    </p>
+
+    <br />
     <br />
     <ti-grid
         [pageSize]="5"
