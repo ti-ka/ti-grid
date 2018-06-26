@@ -88,7 +88,7 @@ On template:
     [rowActions]="rowActions"
     [columns]="columns"
     [pageSize]="20"
-    [page]="1" 
+    [currentPage]="1" 
     [url]="url">
   </ti-grid>
 ```
