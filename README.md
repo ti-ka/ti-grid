@@ -14,7 +14,7 @@ Grids like they should be (simple & powerful):
 
 ##### In your app.module, (import)
 
-```
+```typescript
 
 import { TiGridModule } from 'ti-grid' ;
 
@@ -25,7 +25,7 @@ imports: [
 
 ##### In your component: (Configure)
 
-```
+```typescript
 // url to get data from (optionally, you can pass any[] as rows:
 url = 'https://api.myjson.com/bins/15psn9';
 
@@ -41,7 +41,7 @@ columns =  [
 
 ##### In the template:
 
-```
+```html
  <ti-grid
     [columns]="columns"
     [url]="url">
@@ -52,7 +52,7 @@ columns =  [
 
 ##### Advances Usage
 
-```
+```typescript
 // url to get data from (optionally, you can pass any[] as rows:
 url = 'https://api.myjson.com/bins/15psn9';
 
@@ -83,7 +83,7 @@ rowActions = [{
 On template:
 
 
-```
+```html
  <ti-grid
     [rowActions]="rowActions"
     [columns]="columns"
