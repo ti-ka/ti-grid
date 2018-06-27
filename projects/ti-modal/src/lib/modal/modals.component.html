@@ -21,6 +21,7 @@
                 </div>
                 <div class="projected-item-content-body">
                     <ngplus-dynamic-content
+                            class="dynamic-content"
                             [selector]="item.selector"
                             [componentClass]="item.componentClass"
                             [data]="item.data"></ngplus-dynamic-content>
@@ -28,7 +29,7 @@
 
                 <div class="buttons" *ngIf="item.buttons && item.buttons.length > 0">
                     <button *ngFor="let btn of item.buttons" class="btn btn-{{btn.style}}"
-                            (click)="btn.buttonClicked()">{{ btn.text }}</button>
+                            (click)="btn.onClick()">{{ btn.text }}</button>
                 </div>
 
             </div>

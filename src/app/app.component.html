@@ -10,19 +10,33 @@
 
     <br />
     <br />
+
+    <ng-signature-pad #pad
+        (signed)="imageData = $event"></ng-signature-pad>
+    <button class="btn btn-default" (click)="clearSignature(pad)">Clear</button>
+
+    <br />
+    <br />
+    <p style="border: 2px solid red" *ngIf="imageData">
+        <img [src]="imageData" style="width: 100%">
+    </p>
+
+    <br />
     <br />
     <ti-grid
-        [pageSize]="10"
+        [pageSize]="5"
         [columns]="columns"
         [rowActions]="actions"
         [url]="url">
     </ti-grid>
 </div>
 
+<!--
 <ng-workflow
     [lineColor]="'navy'"
     [nodes]="nodes"
     [connections]="connections"></ng-workflow>
+-->
 
 <router-outlet></router-outlet>
 

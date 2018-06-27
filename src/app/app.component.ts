@@ -5,8 +5,8 @@ import { Component, OnInit } from '@angular/core';
 import { WorkflowConnection, WorkflowNode } from '../../projects/ti-workflow/src/lib/models/workflow-models';
 
 // From local npm:
-import { IRowAction, IColumn } from '../../projects/ti-grid/src/lib/ti-grid.interfaces';
-import {Alert, Confirm, Toast} from "projects/ti-modal/src/public_api";
+import { IRowAction, IColumn } from 'projects/ti-grid/src/lib/ti-grid.interfaces';
+import {Alert, Confirm, Toast} from 'projects/ti-modal/src/public_api';
 import { Modal } from 'projects/ti-modal/src/lib/modal/modal';
 
 @Component({
@@ -22,9 +22,11 @@ export class AppComponent implements OnInit {
     connections: WorkflowConnection[] = [];
     url: string;
 
+    imageData: string;
+
     constructor() {
 
-        this.url = 'https://api.myjson.com/bins/15psn9';
+        this.url = 'https://api.myjson.com/bins/17glb6';
 
         this.columns =  [
             {
@@ -36,7 +38,7 @@ export class AppComponent implements OnInit {
                     return `<img src='https://loremflickr.com/200/200/${v}' class="pull-left float-left m-r-10" /> <p>${v}</p>`;
                 }
             },
-            { title: 'Model', field: 'model', filterOperator: 'has', filterText: 'e'},
+            { title: 'Model', field: 'model'},
             { title: 'Price', field: 'price', align: 'right' },
             { title: 'Discounted 25%', field: 'price', align: 'right', template: (v) => {
                     return '<strong>$ ' + v * .75 + ' </strong>';
@@ -137,12 +139,20 @@ export class AppComponent implements OnInit {
     ngOnInit() {
     }
 
+    clearSignature(pad) {
+        Confirm.delete('Are you sure to delete the signature?', () => {
+            pad.clear();
+            Toast.success('The signature has been cleared.');
+        }).setIcon('times');
+    }
+
     openConfirmation() {
         Confirm.success('Message Confirmation', 'Are you sure to send a message?', 'Yes, sure', () => {
             Toast.danger('Message Not sent', 'Your message has failed to send.', 'Retry', () => {
-                Alert.success('Message successfully sent', 'Your message has delivered.');
+                Alert.success('Your message has delivered.');
             });
-        });
+        }).setIcon('users');
+
     }
 
     openWorkflow() {
@@ -153,7 +163,7 @@ export class AppComponent implements OnInit {
                 nodes: this.nodes,
                 connections: this.connections
             }
-        }).present();
+        });
     }
 
 
@@ -166,7 +176,7 @@ export class AppComponent implements OnInit {
                 columns: this.columns,
                 rowActions: this.actions
             }
-        }).present();
+        });
     }
 
 }

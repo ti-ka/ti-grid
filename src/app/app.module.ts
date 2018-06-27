@@ -12,15 +12,19 @@ import { RouterModule } from '@angular/router';
 import { WorkflowComponent } from '../../projects/ti-workflow/src/lib/components/workflow/workflow.component';
 import { TiGridComponent } from '../../projects/ti-grid/src/lib/ti-grid.component';
 import { ConfirmComponent} from '../../projects/ti-modal/src/lib/confirm/confirm.component';
+import {SignaturePadModule} from "../../projects/signature-pad/src/lib/signature-pad.module";
+import {CommonModule} from "@angular/common";
 
 @NgModule({
     declarations: [
         AppComponent,
     ],
     imports: [
+        CommonModule,
         TiGridModule,
         TiWorkflowModule,
         TiModalModule,
+        SignaturePadModule,
         RouterModule.forRoot([
             { path: 'ng-workflow', component: WorkflowComponent, },
             { path: 'ti-grid', component: TiGridComponent }

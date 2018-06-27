@@ -1,6 +1,6 @@
 # Ti-Grid for Angular 2+ 
 
-Demo: https://dev.tika.me/ti-grid/
+Demo: https://stackblitz.com/edit/ng-plus-grid?file=src%2Fapp%2Fapp.component.html
 
 Grids like they should be (simple & powerful):
 
@@ -14,7 +14,7 @@ Grids like they should be (simple & powerful):
 
 ##### In your app.module, (import)
 
-```
+```typescript
 
 import { TiGridModule } from 'ti-grid' ;
 
@@ -25,9 +25,9 @@ imports: [
 
 ##### In your component: (Configure)
 
-```
+```typescript
 // url to get data from (optionally, you can pass any[] as rows:
-url = 'https://api.myjson.com/bins/15psn9';
+url = 'https://api.myjson.com/bins/ly7d1';
 
 // title and field are only required:
 columns =  [
@@ -41,7 +41,7 @@ columns =  [
 
 ##### In the template:
 
-```
+```html
  <ti-grid
     [columns]="columns"
     [url]="url">
@@ -52,7 +52,7 @@ columns =  [
 
 ##### Advances Usage
 
-```
+```typescript
 // url to get data from (optionally, you can pass any[] as rows:
 url = 'https://api.myjson.com/bins/15psn9';
 
@@ -83,12 +83,12 @@ rowActions = [{
 On template:
 
 
-```
+```html
  <ti-grid
     [rowActions]="rowActions"
     [columns]="columns"
     [pageSize]="20"
-    [page]="1" 
+    [currentPage]="1" 
     [url]="url">
   </ti-grid>
 ```

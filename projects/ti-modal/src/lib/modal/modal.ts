@@ -18,6 +18,7 @@ export class Modal {
     onEscape: 'dock' | 'close' | 'wait';
     buttons: ModalButton[] = [];
     private exitDelayForAnimation = 300;
+    protected presented = false;
 
     constructor() {
         this.id = this.id || Uuid.generate();
@@ -33,18 +34,18 @@ export class Modal {
     public static create(modal: Modal | object | string): Modal {
 
         if (modal instanceof Modal) {
-            return modal;
+            return modal.present();
         }
 
         if (typeof modal === 'string') {
-            return Object.assign(new Modal(), { selector: modal, title: modal });
+            return Object.assign(new Modal(), { selector: modal, title: modal }).present();
         } else {
-            return Object.assign(new Modal(), modal);
+            return Object.assign(new Modal(), modal).present();
         }
+
     }
 
     public static closeModal(modal: Modal) {
-        const index = Modal._modals.indexOf(modal);
         modal.close();
     }
 
@@ -76,6 +77,10 @@ export class Modal {
     }
 
     public present(): Modal {
+        if (this.presented) {
+            return this;
+        }
+        this.presented = true;
         Modal._modals.push(this);
         return this;
     }

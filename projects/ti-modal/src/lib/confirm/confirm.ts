@@ -7,6 +7,10 @@ export class Confirm {
     style: 'primary' | 'danger' | 'warning' | 'info' | 'success' | 'default' = 'danger';
     confirmButton = 'Yes';
     cancelButton = 'Cancel';
+
+    icon: string;
+    imgUrl: string;
+
     protected presented = false;
 
     public static info(title: string, message: string, button: string, onClick: (confirm?: Confirm) => void): Confirm {
@@ -19,6 +23,10 @@ export class Confirm {
 
     public static danger(title: string, message: string, button: string, onClick: (confirm?: Confirm) => void): Confirm {
         return Confirm.prepare(title, message, button, onClick).setStyle('danger');
+    }
+
+    public static delete(message: string, onClick: (confirm?: Confirm) => void): Confirm {
+        return Confirm.prepare('Delete confirmation', message, 'Delete', onClick).setStyle('danger');
     }
 
     public static success(title: string, message: string, button: string, onClick: (confirm?: Confirm) => void): Confirm {
@@ -47,9 +55,20 @@ export class Confirm {
         return this;
     }
 
+    public setIcon(icon: string): Confirm {
+        this.icon = icon;
+        return this;
+    }
+
+    public setImage(imgUrl: string): Confirm {
+        this.imgUrl = imgUrl;
+        return this;
+    }
+
+
     public present() {
         if (this.presented) {
-            return;
+            return this;
         }
         this.presented = true;
         const modal = new Modal();

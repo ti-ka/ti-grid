@@ -37,3 +37,12 @@
   width: 100%;
   z-index: 2;
 }
+
+img {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+}
+.fa, .fal {
+    margin-bottom: 20px;
+}
