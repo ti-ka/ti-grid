@@ -1,6 +1,6 @@
 # Ti-Grid for Angular 2+ 
 
-Demo: https://stackblitz.com/edit/ng-plus-grid?file=src%2Fapp%2Fapp.component.html
+Demo: https://stackblitz.com/edit/ng-plus-grid?file=src%2Fapp%2Fgetting-started%2Fgetting-started.component.ts
 
 Grids like they should be (simple & powerful):
 
