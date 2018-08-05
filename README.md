@@ -50,7 +50,7 @@ columns =  [
 ```
 
 
-##### Advances Usage
+# Advanced Usage:
 
 ```typescript
 // url to get data from (optionally, you can pass any[] as rows:
