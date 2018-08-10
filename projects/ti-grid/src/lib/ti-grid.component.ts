@@ -55,6 +55,15 @@ export class TiGridComponent implements OnInit {
     fetchCurrentPage() {
         const url = `${this.url}?page=${this.currentPage}&pageSize=${this.pageSize}`;
         this.http.get<any>(url, {headers: this.headers}).subscribe(response => {
+            if (this.columns == null && response.length > 0) {
+               const keys =  Object.keys(response[0]);
+               this.columns = keys.map(key =>  {
+                   return {
+                       title: key, // May need to convert camel case to title case
+                       field: key
+                   };
+               });
+            }
             console.log(response instanceof Array);
             if (response instanceof Array) {
                 this.rows = response;
