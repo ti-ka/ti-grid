@@ -33,10 +33,9 @@
 .projector .projected-item.modal-alert {
     position: relative;
     height: auto;
-    width: 400px;
-    max-width: 400px;
+    margin: 0 auto;
     top: 50%;
-    margin: -100px auto 0 auto;
+    top: calc(50vh - 200px);
 }
 
 .projector .projected-item .projected-item-content-title {
@@ -53,14 +52,11 @@
     display: flex;
     height: auto;
     overflow: auto;
+    position: relative;
 }
 
-ngplus-dynamic-content, .dynamic-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: auto;
+.dynamic-content {
+    display: block;
 }
 
 .projector-buttons, .dock-buttons {
@@ -143,7 +139,6 @@ ngplus-dynamic-content, .dynamic-content {
 }
 
 
-/* For Modern Browsers */
 .projected-item  {
     display: flex;
     flex-direction: column;

@@ -1,5 +1,6 @@
 import { ModalButton } from './modal-button';
 import { Uuid } from '../core/Uuid';
+import { Subject, Observable } from 'rxjs';
 
 export class Modal {
     public static _modals: Modal[] = [];
@@ -19,6 +20,20 @@ export class Modal {
     buttons: ModalButton[] = [];
     private exitDelayForAnimation = 300;
     protected presented = false;
+
+    private openSubject = new Subject<Modal>();
+    private dockedSubject = new Subject<Modal>();
+    private closedSubject = new Subject<Modal>();
+
+    public get onOpen(): Observable<Modal> {
+        return this.openSubject.asObservable();
+    }
+    public get onDock(): Observable<Modal> {
+        return this.dockedSubject.asObservable();
+    }
+    public get onClose(): Observable<Modal> {
+        return this.closedSubject.asObservable();
+    }
 
     constructor() {
         this.id = this.id || Uuid.generate();
@@ -81,6 +96,7 @@ export class Modal {
             return this;
         }
         this.presented = true;
+        this.openSubject.next(this);
         Modal._modals.push(this);
         return this;
     }
@@ -94,10 +110,12 @@ export class Modal {
         switch (this.onEscape) {
             case 'dock':
                 this.dock(true);
+                this.dockedSubject.next(this);
                 break;
 
             case 'close':
                 this.close();
+                this.closedSubject.next(this);
                 break;
 
             default:
