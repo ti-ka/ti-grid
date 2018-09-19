@@ -7,7 +7,7 @@ Grids like they should be (simple & powerful):
 # Installation:
 
 ```
-  npm install ti-grid
+  npm install @ng-plus/grid
 ```
 
 # Usage:
@@ -16,7 +16,7 @@ Grids like they should be (simple & powerful):
 
 ```typescript
 
-import { TiGridModule } from 'ti-grid' ;
+import { TiGridModule } from '@ng-plus/grid' ;
 
 imports: [
   TiGridModule
