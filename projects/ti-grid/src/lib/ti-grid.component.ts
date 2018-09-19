@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IColumn, IRowAction } from './ti-grid.interfaces';
-import { isNullOrUndefined } from 'util';
-import { consumeBinding } from '@angular/core/src/render3/instructions';
 
 @Component({
     selector: 'ti-grid',
@@ -17,7 +15,7 @@ export class TiGridComponent implements OnInit {
     @Input() rowActions: IRowAction[];
     @Input() pageSize = 10;
     @Input() currentPage = 1;
-    @Input() checkbox = true;
+    @Input() editIcon = 'pen';
     @Input() customPaging = false;
 
     @Output()
@@ -41,6 +39,9 @@ export class TiGridComponent implements OnInit {
             c.template = c.template || ((v) => v);
             c.onFilter = c.onFilter || ((v) => v);
             c.filterOperator = 'has';
+            if (c.sortable !== false) {
+                c.sortable = true;
+            }
         });
 
         if (this.url) {
@@ -114,6 +115,7 @@ export class TiGridComponent implements OnInit {
 
         this.filteredCount = rows.length;
 
+        this.totalCount = rows.length;
 
         rows = rows.splice((this.currentPage - 1) * this.pageSize, this.pageSize);
 
@@ -234,7 +236,8 @@ export class TiGridComponent implements OnInit {
         let _pages =  Array.from(Array(Math.ceil(this.totalCount / this.pageSize)))
             .map((v, i) => i + 1);
         if (_pages.length > 5) {
-            _pages = _pages.filter((v, i) => [1, this.currentPage - 1, this.currentPage, this.currentPage + 1, _pages.length].indexOf(v) >= 0);
+            _pages = _pages.filter(v =>
+                [1, this.currentPage - 1, this.currentPage, this.currentPage + 1, _pages.length].indexOf(v) >= 0);
         }
         return _pages;
     }
@@ -255,6 +258,9 @@ export class TiGridComponent implements OnInit {
     }
 
     toggleColumnSort(column: IColumn) {
+        if (!column.sortable) {
+            return;
+        }
         this.columns.filter(c => c !== column).forEach(c => c.sort = null);
         column.sort = (column.sort === 'asc') ? 'desc' : 'asc';
         this.refreshGrid();

@@ -168,3 +168,34 @@ input.form-control.clean-input {
     background: #e4e4e4;
   }
 }
+
+
+td.active-row {
+    background:url(
+    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPUlEQVQoU2N88ODBfwUFBUYGAgCsgBjFcJMIKUaxEp9iDLfhUozVE9gU4/QtumK8wYKsmGD4wRQTVAgLZwAFhCeqs0XatQAAAABJRU5ErkJggg==
+    ) rgba(255, 255, 255, .75) repeat;
+    background: rgba(255, 255, 255, .9);
+    position: absolute;
+    left: 0;
+    width: 100%;
+    display: block;
+
+    .pill {
+        padding: .5em 1em;
+        border-radius: 20px;
+        background: white;
+        cursor: pointer;
+        border: 1px solid;
+        font-size: .8em;
+    }
+
+}
+
+table, tr {
+    position: relative;
+}
+.text-gray { color: #888}
+
+input.form-control.clean-input {
+    padding: .375rem .75rem;
+}

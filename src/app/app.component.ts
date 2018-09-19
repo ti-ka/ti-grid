@@ -32,14 +32,14 @@ export class AppComponent implements OnInit {
             {
                 title: 'Make',
                 field: 'make',
-                sort: 'asc',
+                sortable: false,
                 onClick: (v) => alert(v),
                 template: (v) => {
                     return `<img src='https://loremflickr.com/200/200/${v}' class="pull-left float-left m-r-10" /> <p>${v}</p>`;
                 }
             },
             { title: 'Model', field: 'model'},
-            { title: 'Price', field: 'price', align: 'right' },
+            { title: 'Price', field: 'price', align: 'right', sort: 'asc' },
             { title: 'Discounted 25%', field: 'price', align: 'right', template: (v) => {
                     return '<strong>$ ' + v * .75 + ' </strong>';
                 }
