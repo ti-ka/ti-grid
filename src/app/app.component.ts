@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
 
     constructor() {
 
-        this.url = 'https://api.myjson.com/bins/17glb6';
+        this.url = 'https://api.myjson.com/bins/nthbc';
 
         this.columns =  [
             {

@@ -128,6 +128,11 @@ export class TiGridComponent implements OnInit {
             let accept = true;
             const actualValue = column.template(row[column.field], column, row);
 
+            // If search has an query and the field is null:
+            if (actualValue == null && column.filterText != null) {
+                return false;
+            }
+
             if (column.excludes.indexOf(actualValue) >= 0) {
                 return false;
             }
