@@ -92,3 +92,35 @@ On template:
     [url]="url">
   </ti-grid>
 ```
+
+# Server Side Pagination
+If you need to fetch records page-by-page:
+- First `[customPaging]` to true and set the `[totalCount]` properties.
+- Then, implement `(gridStateChanged)` method.
+
+On your component.ts:
+```
+    rows: Observable<any[]>;
+    totalRows: Observable<number>;
+    refreshGrid(page: number): void {
+        // Use the page to fetch rows for that page
+    }
+```
+
+On your componten.html:
+```
+  <ti-grid
+            ... other properties
+            [customPaging]="true"
+            [rows]="rows | async"
+            [totalCount]="totalRows | async"
+            (gridStateChanged)="refreshGrid($event)"></ti-grid>
+```
+
+Note that you may also get rid of `| async` pipe if you set the `rows` and `totalRows` as non-observables.
+
+
+
+
+
+
