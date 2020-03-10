@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
                 title: 'Make',
                 field: 'make',
                 sortable: false,
+                searchable: false,
                 onClick: (v) => alert(v),
                 template: (v) => {
                     return `<img src='https://loremflickr.com/200/200/${v}' class="pull-left float-left m-r-10" /> <p>${v}</p>`;

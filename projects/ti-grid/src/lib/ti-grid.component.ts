@@ -39,9 +39,15 @@ export class TiGridComponent implements OnInit {
             c.template = c.template || ((v) => v);
             c.onFilter = c.onFilter || ((v) => v);
             c.filterOperator = 'has';
+
             if (c.sortable !== false) {
                 c.sortable = true;
             }
+
+            if (c.searchable !== false) {
+                c.searchable = true;
+            }
+
         });
 
         if (this.url) {
@@ -101,7 +107,7 @@ export class TiGridComponent implements OnInit {
             return this.rows;
         }
 
-        const filterColumns = this.columns.filter(c => c.excludes.length > 0 || (c.filterText && c.filterOperator));
+        const filterColumns = this.columns.filter(c => c.excludes.length > 0 || (c.searchable && c.filterText && c.filterOperator));
         const sortColumn = this.columns.find(c => c && c.sort === 'asc' || c.sort === 'desc' );
 
         if (sortColumn) {
@@ -231,6 +237,15 @@ export class TiGridComponent implements OnInit {
     }
 
     searchColumn(searchText: string, column: IColumn) {
+
+        /* restrict search when column is not searchable.
+           Input disabled property can be easily removed from debug tool 
+           so handled here.         
+        */
+        if (!column.searchable) {
+            return;
+        }
+
         column.filterOperator = 'has';
         column.filterText = searchText;
         this.currentPage = 1;

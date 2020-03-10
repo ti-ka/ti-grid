@@ -12,6 +12,7 @@ export interface IColumn {
     template?: (value?: any, column?: IColumn, row?: any) => any;
     showColumnFilter?: boolean;
     onFilter?: (column?: IColumn) => void;
+    searchable?: boolean;
 }
 
 export interface IRowAction {

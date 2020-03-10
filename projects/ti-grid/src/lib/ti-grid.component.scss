@@ -199,3 +199,7 @@ table, tr {
 input.form-control.clean-input {
     padding: .375rem .75rem;
 }
+
+.disabled {
+  cursor: not-allowed !important;
+}
