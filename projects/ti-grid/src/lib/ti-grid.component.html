@@ -18,7 +18,7 @@
                   <option value="<">Less than</option>
                   <option value="<=">LT or Equal</option>
                 </select>
-                <input [(ngModel)]="column.showColumnFilter" placeholder="Filter by"/>
+                <input *ngIf="column.searchable" [(ngModel)]="column.showColumnFilter" placeholder="Filter by"/>
               </div>
             </li>
             <li>
@@ -67,6 +67,8 @@
     <th *ngFor="let column of columns" class="p-0">
       <input class="form-control clean-input"
              [ngModel]="column?.filterText"
+             [ngClass]="{'disabled': !column.searchable}"
+             [disabled]="!column?.searchable"
              (ngModelChange)="searchColumn($event, column)"  >
     </th>
   </tr>
